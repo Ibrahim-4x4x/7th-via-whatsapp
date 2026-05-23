@@ -1,220 +1,313 @@
-<T Ibrahim>
-<html lang="en" dir="ltr">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit 7 English Quiz</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>الاختبار الشامل للأدوات والمصطلحات التعليمية الرقمية</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; }
-        .quiz-card { background: white; border-radius: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        .question { border-bottom: 1px solid #edf2f7; padding: 1.5rem 0; }
-        .question:last-child { border-bottom: none; }
-        .hidden { display: none; }
-        input[type="radio"]:checked + span { color: #2563eb; font-weight: bold; }
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #f1f3f4;
+            --correct-color: #34a853;
+            --wrong-color: #ea4335;
+            --text-color: #202124;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+        .section-title {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .question-container {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .question-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+        }
+        .option-label {
+            display: block;
+            padding: 10px 15px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .option-label:hover {
+            background-color: var(--secondary-color);
+        }
+        .option-label input {
+            margin-left: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #1557b0;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            background-color: #e6f4ea;
+            color: var(--correct-color);
+            border: 1px solid var(--correct-color);
+        }
+        .feedback.wrong {
+            background-color: #fce8e6;
+            color: var(--wrong-color);
+            border: 1px solid var(--wrong-color);
+        }
+        #result-container {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f0fe;
+            color: var(--primary-color);
+            border-radius: 8px;
+            display: none;
+        }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body>
 
-    <div class="max-w-3xl mx-auto quiz-card p-6 md:p-10">
-        <!-- Start Screen -->
-        <div id="start-screen" class="text-center py-10">
-            <h1 class="text-3xl font-bold text-blue-800 mb-4">Unit 7 Quiz: Communication</h1>
-            <p class="text-gray-600 mb-8">Please enter your information to start the exam (Total: 10 Marks)</p>
-            <div class="space-y-4 max-w-sm mx-auto">
-                <input type="text" id="student-name" class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-400" placeholder="Student Full Name">
-                <input type="text" id="teacher-phone" class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400" placeholder="Teacher WhatsApp (e.g. 97150xxxxxxx)">
-                <button onclick="initQuiz()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">Start Exam</button>
-            </div>
-            <p class="text-xs text-gray-400 mt-6">* Note: You can only submit once.</p>
-        </div>
+<div class="container">
+    <h1>الاختبار الشامل (70 سؤالاً) للأدوات الرقمية</h1>
+    <p style="text-align: center;">يحتوي هذا الاختبار على جميع الأسئلة المستخرجة من الملفات المرفقة دون حذف.</p>
+    
+    <form id="quiz-form">
+        <div id="questions-wrapper"></div>
+        <button type="button" class="submit-btn" onclick="submitQuiz()">إرسال الإجابات والنتيجة</button>
+    </form>
 
-        <!-- Quiz Screen -->
-        <div id="quiz-screen" class="hidden">
-            <div class="flex justify-between items-center mb-6 sticky top-0 bg-white py-2 border-b">
-                <span class="font-bold text-blue-700" id="display-name"></span>
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">10 Marks</span>
-            </div>
+    <div id="result-container"></div>
+</div>
 
-            <form id="quiz-form">
-                <!-- Vocabulary (3 Marks) -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4 bg-gray-50 p-2 rounded">Part 1: Vocabulary</h3>
-                    
-                    <div class="question">
-                        <p class="font-medium mb-3">1. I'm going to ________ to a podcast about technology.</p>
-                        <div class="grid grid-cols-1 gap-2">
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q1" value="insert"> <span class="ml-2">insert</span></label>
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q1" value="listen"> <span class="ml-2">listen</span></label>
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q1" value="use"> <span class="ml-2">use</span></label>
-                        </div>
-                    </div>
+<script>
+    // جميع الأسئلة (70 سؤال) من جميع الملفات
+    const quizData = [
+        // --- الملف الشامل (المجموعة الأولى والثانية) ---
+        { q: "جهاز حاسوب محمول يعتمد في تشغيله على الحوسبة السحابية ونظام ChromeOS، وصمم خصيصاً للسرعة والأمان والجاهزية اللحظية:", opts: ["Chromebook (كروم بوك)", "جوجل درايف", "مستندات جوجل", "الحواسيب المكتبية التقليدية"], ans: 0 },
+        { q: "ما هو النظام الذي يُعرّف بأنه نظام تشغيل سحابي سريع وآمن من جوجل، يتميز ببيئة معزولة لحماية الملفات؟", opts: ["Gmail", "Android", "ChromeOS (نظام تشغيل كروم)", "Windows Cloud"], ans: 2 },
+        { q: "ميزات ذكية مدمجة تهدف إلى تمكين الشمولية التعليمية وتسهيل وصول الطلبة ذوي الاحتياجات الخاصة للمحتوى الرقمي:", opts: ["Accessibility Tools (أدوات الوصول المساندة)", "الترفيع التلقائي للملفات", "أدوات التصحيح الإملائي الذكي", "أدوات البرمجة المتقدمة"], ans: 0 },
+        { q: "أداة مدمجة تتيح للمعلم إنتاج محتوى تعليمي مرئي وتفاعلي عبر تسجيل شاشة الجهاز مع الصوت وصورة الكاميرا:", opts: ["الوضع السري في Gmail", "Screen casting (تسجيل الشاشة)", "محرر النصوص السحابي", "ميزة التسمية التوضيحية البصرية"], ans: 1 },
+        { q: "يُعرف جوجل درايف Google Drive بأنه:", opts: ["مساحة تخزين سحابية شاملة تتيح تنظيم الموارد ومشاركتها مع الحفظ التلقائي", "منصة مراسلة مهنية", "محرر نصوص تفاعلي", "أداة لترجمة وفك النصوص من الصور"], ans: 0 },
+        { q: "منصة مراسلة مهنية متطورة تتيح إدارة التواصل الرسمي، وجدولة المهام، وتطبيق بروتوكولات الأمان الفائقة:", opts: ["Google Docs", "Gmail (جي ميل)", "الرف التعليمي الموحد", "نموذج جوجل للاستقصاء"], ans: 1 },
+        { q: "الأداة التي تمثل 'محرر' نصوص سحابي يدعم التأليف التشاركي الحي؛ حيث يمكن لعدّة مستخدمين العمل بالتزامن:", opts: ["Google Docs (مستندات جوجل)", "التعرف الضوئي على الحروف", "نظام تشغيل كروم", "الكتابة بالصوت"], ans: 0 },
+        { q: "تقنية ذكية تتيح للبحث في Google Drive 'قراءة' واستخراج النصوص الموجودة داخل الصور والملفات الممسوحة ضوئياً:", opts: ["التسجيل المرئي الفوري", "الحماية المعزولة", "OCR (التعرف الضوئي على الحروف)", "هندسة المستندات السحابية"], ans: 2 },
+        { q: "إذا أراد المعلم إرسال رسالة أمنية حساسة في Gmail بحيث لا يمكن نسخها أو طباعتها مع ميزة التدمير الذاتي يفعل:", opts: ["الوضع السري", "بروتوكول الأرشفة التلقائية", "هندسة المراسلات التشاركية", "ميزة التحقق من صحة البيانات"], ans: 0 },
+        { q: "ميزة إنتاجية تحول الكلام المنطوق إلى نص مكتوب بدقة عالية داخل المستندات:", opts: ["التقاط الشاشة الرقمية", "Voice Typing (الكتابة بالصوت)", "التسمية التوضيحية المباشرة", "العمل الجماعي المتزامن"], ans: 1 },
+        { q: "عندما يقوم المستخدم بـ 'إرسال تفاصيل زمنية أو رابط تقويم للآخرين للسماح بمعرفة الوقت المتاح أو الحجز فيه'، فإن هذا يُعرف بـ:", opts: ["مشاركة الموعد", "رابط الاجتماع الموحد", "وضع الاختبار الإلكتروني", "إدارة الفصول الافتراضية"], ans: 0 },
+        { q: "عنوان (URL) فريد ينشأ تلقائياً أو يدوياً للانضمام إلى جلسة فيديو افتراضية يُطلق عليه:", opts: ["التمارين الموجهة", "رابط الاجتماع", "التعليقات التوضيحية", "دفتر العلامات الرقمي"], ans: 1 },
+        { q: "يُقصد بمصطلح 'مدة الاجتماع' في بيئة العمل الرقمية:", opts: ["إرسال دعوة إلى أشخاص آخرين لحضور حدث معين عبر البريد الإلكتروني.", "النطاق الزمني لتسجيل شاشة المعلم.", "الوقت المستغرق لحل الاختبارات.", "تحديد مسارات مختلفة للاستبيان."], ans: 0 },
+        { q: "لضمان جودة البيانات المجموعة عبر النماذج وتحديد قيود محددة على الإجابات تعتمد على:", opts: ["وضع الاختبار", "تحقق من صحة البيانات (Data Validation)", "التسمية التوضيحية", "غرف المجموعات المصغرة"], ans: 1 },
+        { q: "الخاصية التي تعمل على تحويل النموذج إلى اختبار إلكتروني مع إمكانية وضع درجات تلقائية وتقديم تغذية راجعة:", opts: ["التمارين الموجهة", "وضع الاختبار (Quiz Mode)", "العمل الجماعي المتزامن", "أرشفة الصف الافتراضي"], ans: 1 },
+        { q: "وسيلة تواصل داخل المستند تتيح تقديم تغذية راجعة محددة على أجزاء معينة من النص دون تعديله مباشرة تدعى بـ:", opts: ["التعليقات التوضيحية (Comments)", "المشاركة أو التصدير", "دفتر العلامات الرقمي", "غرف المجموعات"], ans: 0 },
+        { q: "قدرة أكثر من مستخدم على العمل داخل الملف نفسه في نفس اللحظة ورؤية تعديلات بعضهم البعض فوراً:", opts: ["أرشفة الصف", "التسمية التوضيحية", "العمل الجماعي المتزامن", "المشاركة أو التصدير اليدوي"], ans: 2 },
+        { q: "خاصية تتيح إرسال شريحة محددة أو ملف العرض إلى الآخرين عبر البريد الإلكتروني بصيغة رقمية مثل PDF تعرف بـ:", opts: ["المشاركة أو التصدير", "التحقق من صحة البيانات", "صفوف جوجل الافتراضية", "رابط الاجتماع"], ans: 0 },
+        { q: "حفظ بيانات الصف وسجلاته عند انتهاء الفصل الدراسي مع إيقاف التفاعل النشط للحفاظ على الخصوصية والمساحة التخزينية:", opts: ["حذف الصف النهائي", "أرشفة الصف (Class Archiving)", "وضع الاختبار الإلكتروني", "التمارين الموجهة"], ans: 1 },
+        
+        // --- الملف الأول (تكرار مع أسئلة مشابهة وتفصيلية) ---
+        { q: "ما هو المصطلح الذي يُشير إلى إرسال تفاصيل زمنية أو رابط تقويم للسماح للآخرين بمعرفة الوقت المتاح أو الحجز فيه؟", opts: ["رابط الاجتماع", "مشاركة الموعد", "مدة الاجتماع", "العمل الجماعي المتزامن"], ans: 1 },
+        { q: "عنوان (URL) فريد ينشأ تلقائياً أو يدوياً للانضمام إلى جلسة فيديو افتراضية يُسمى بـ:", opts: ["رابط الاجتماع", "التعليقات التوضيحية", "المشاركة أو التصدير", "غرف المجموعات"], ans: 0 },
+        { q: "وفقاً للجدول، ما هو التعريف الذي تم اقترانه بمصطلح 'مدة الاجتماع'؟", opts: ["إرسال دعوة لحضور حدث معين عبر البريد الإلكتروني", "تحديد وقت نهاية الجلسة", "حساب الساعات المستغرقة", "تحويل النموذج لاختبار"], ans: 0 },
+        { q: "الخاصية التي تهدف إلى وضع قيود على الإجابات لضمان جودة البيانات المجموعة هي:", opts: ["وضع الاختبار", "دفتر العلامات الرقمي", "التحقق من صحة البيانات", "التمارين الموجهة"], ans: 2 },
+        { q: "عند تحويل النموذج إلى اختبار إلكتروني مع درجات تلقائية نستخدم ميزة:", opts: ["العمل الجماعي المتزامن", "وضع الاختبار Quiz Mode", "أرشفة الصف", "صفوف جوجل"], ans: 1 },
+        { q: "وسيلة تواصل داخل المستند تتيح تقديم تغذية راجعة محددة دون تعديله مباشرة:", opts: ["التعليقات التوضيحية (Comments)", "التسمية التوضيحية", "التمارين الموجهة", "مشاركة الموعد"], ans: 0 },
+        { q: "يُقصد بمصطلح 'العمل الجماعي المتزامن':", opts: ["إرسال ملف PDF عبر البريد", "قدرة أكثر من مستخدم على العمل داخل الملف نفسه ورؤية التعديلات فورياً", "تقسيم المشاركين لمجموعات", "حفظ بيانات الصف"], ans: 1 },
+        { q: "الخاصية التي تتيح إرسال شريحة محددة بصيغة رقمية مثل PDF تعرف بـ:", opts: ["التحقق من صحة البيانات", "المشاركة أو التصدير", "أرشفة الصف", "رابط الاجتماع"], ans: 1 },
+        { q: "ما الهدف والوظيفة الأساسية لخاصية 'أرشفة الصف (Class Archiving)'؟", opts: ["تجميع درجات الطلاب", "تحويل الكلام لنص", "حفظ بيانات الصف وسجلاته مع إيقاف التفاعل النشط للحفاظ على الخصوصية", "تقسيم الطلاب لمجموعات"], ans: 2 },
+        { q: "سجل إلكتروني مركزي يجمع كافة درجات الطلبة ويقوم بحساب المعدلات تلقائياً هو:", opts: ["وضع الاختبار", "دفتر العلامات الرقمي", "التمارين الموجهة", "صفوف جوجل"], ans: 1 },
+        { q: "خاصية التسمية التوضيحية (Captioning) في الاجتماعات المرئية تقوم بـ:", opts: ["تحويل الكلام المنطوق إلى نص مكتوب على الشاشة فورياً", "إرسال تفاصيل زمنية", "وضع قيود رقمية للبيانات", "تقديم تغذية راجعة في المستندات"], ans: 0 },
+        { q: "ميزة في Google Meet تتيح تقسيم المشاركين إلى مجموعات صغيرة في غرف افتراضية:", opts: ["صفوف جوجل", "غرف المجموعات (Breakout Rooms)", "العمل الجماعي المتزامن", "رابط الاجتماع"], ans: 1 },
+        { q: "أداة في Google Classroom تنشئ واجبات تقدم تلميحات وموارد داعمة للطالب تلقائياً حين يجيب خطأ:", opts: ["التمارين الموجهة Practice set", "وضع الاختبار", "دفتر العلامات الرقمي", "التعليقات التوضيحية"], ans: 0 },
+        { q: "تُعرف منصة 'صفوف جوجل' بشكل عام بأنها:", opts: ["أداة لتقديم تلميحات فقط", "منصة تعليمية تتيح إنشاء صفوف افتراضية وإدارة الواجبات والتواصل", "خاصية تحويل الصوت لنص", "سجل مركزي للدرجات"], ans: 1 },
+        { q: "أي من هذه الخصائص تُعنى حصرياً بـ 'تجميع الدرجات وإصدار الإحصائيات آلياً'؟", opts: ["أرشفة الصف", "التحقق من صحة البيانات", "دفتر العلامات الرقمي", "مشاركة الموعد"], ans: 2 },
 
-                    <div class="question">
-                        <p class="font-medium mb-3">2. If I don't ________ a promise, I usually feel bad about it.</p>
-                        <div class="grid grid-cols-1 gap-2">
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q2" value="get"> <span class="ml-2">get</span></label>
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q2" value="keep"> <span class="ml-2">keep</span></label>
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q2" value="have"> <span class="ml-2">have</span></label>
-                        </div>
-                    </div>
+        // --- الجزء الثاني ---
+        { q: "أراد معلم أن يعرض للطلاب نافذة مخصصة ليروا خطوات الحل معاً في Google Meet، الميزة هي:", opts: ["الأسئلة والأجوبة", "مشاركة الشاشة", "الروابط الذكية", "الإشارة المرجعية"], ans: 1 },
+        { q: "لتخصیص اسم محدد وبسيط للاجتماع الرقمي في Google Meet لسهولة الحفظ بدلاً من الروابط العشوائية:", opts: ["الحدث", "الاسم المستعار للاجتماع", "العرض عبر الإنترنت", "المنطق الشرطي"], ans: 1 },
+        { q: "مجموعة من الشرائح الرقمية تستخدم لعرض المعلومات بطريقة منظمة أمام الجمهور:", opts: ["النموذج الإلكتروني", "المنطق الشرطي", "إدارة الردود", "العرض عبر الإنترنت"], ans: 3 },
+        { q: "أثناء إلقاء العرض التقديمي تتيح ميزة الأسئلة والأجوبة Q&A للمتحدث:", opts: ["رؤية ملاحظاته الخاصة أثناء العرض بينما يرى الجمهور الشرائح فقط", "إرسال شريحة تلقائياً", "تغيير ألوان الخلايا", "حساب المتوسط الحسابي"], ans: 0 },
+        { q: "تقديم العرض التقديمي مباشرة للجمهور عبر الإنترنت باستخدام أدوات الاجتماعات يُسمى بـ:", opts: ["المنطق الشرطي", "إرسال شريحة عبر البريد الإلكتروني", "إدارة الردود", "الدالة SUM"], ans: 1 },
+        { q: "الميزة التي تسمح للمشاركين بإرسال أسئلة أثناء العرض ليقوم المقدم بالإجابة عنها:", opts: ["المعادلات", "الروابط الذكية", "التنسيق الشرطي", "الحدث"], ans: 1 },
+        { q: "علامة توضع عند نقطة محددة في المستند للرجوع إليها سريعاً أو الربط بها:", opts: ["الإشارة المرجعية Bookmark", "الدالة AVERAGE", "النموذج الإلكتروني", "مشاركة الشاشة"], ans: 0 },
+        { q: "تعبيرات رياضية يدخلها المستخدم وتبدأ دائماً بعلامة (=) لإجراء عمليات حسابية تسمى بـ:", opts: ["إدارة الردود", "الاسم المستعار للاجتماع", "المعادلات Formulas", "الحدث"], ans: 2 },
+        { q: "دالة برمجية جاهزة تستخدم لحساب مجموع نطاق من الخلايا الرقمية:", opts: ["الدالة AVERAGE", "الدالة SUM", "التنسيق الشرطي", "الروابط الذكية"], ans: 1 },
+        { q: "لإيجاد المتوسط الحسابي لمجموعة من القيم التلقائي نستخدم:", opts: ["الدالة SUM", "المعادلات", "الدالة AVERAGE", "المنطق الشرطي"], ans: 2 },
+        { q: "تغيير مظهر الخلايا (لون، خط) تلقائياً بناءً على تحقيق شرط معين:", opts: ["التنسيق الشرطي Conditional Formatting", "إدارة الردود", "الإشارة المرجعية", "الاسم المستعار للاجتماع"], ans: 0 },
+        { q: "يُقصد بخاصية 'إدارة الردود' في أدوات جمع البيانات الإلكترونية:", opts: ["وضع فواصل مرجعية", "تعديل محتويات الشرائح", "خاصية في النماذج لعرض وتحليل البيانات التي أدخلها المستخدمون", "كتابة معادلات حسابية"], ans: 2 },
+        { q: "لإنشاء استبيان يوجه المستخدم تلقائياً إلى أقسام مختلفة بناءً على طبيعة إجابته تفعل ميزة:", opts: ["المنطق الشرطي", "الدالة SUM", "مشاركة الشاشة", "الأسئلة والأجوبة"], ans: 0 },
+        { q: "تُعرف أداة Google Forms أو النموذج الإلكتروني بأنها:", opts: ["دالة حسابية", "أداة رقمية تستخدم لجمع المعلومات أو الاستجابات عبر الإنترنت", "تخصيص روابط لغرف الاجتماعات", "علامة تصفح داخلية"], ans: 1 },
+        { q: "ما هو 'الحدث Event' وفقاً للتعريف؟", opts: ["آلية تحدد مسارات في النماذج", "موعد أو نشاط يتم إنشاؤه في التقويم الرقمي مع تحديد الوقت والتاريخ ومكان الاجتماع", "تغيير مظهر الخلايا", "عرض شرائح متتالية"], ans: 1 },
 
-                    <div class="question">
-                        <p class="font-medium mb-3">3. Did you ________ an argument with anyone yesterday?</p>
-                        <div class="grid grid-cols-1 gap-2">
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q3" value="have"> <span class="ml-2">have</span></label>
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q3" value="tell"> <span class="ml-2">tell</span></label>
-                            <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="radio" name="q3" value="keep"> <span class="ml-2">keep</span></label>
-                        </div>
-                    </div>
-                </div>
+        // --- الجزء الثالث ---
+        { q: "لمراجعة التعديلات التي طرأت على المستند وتحديد القائم بها مع استعادة أي نسخة، الأداة هي:", opts: ["مشغل التطبيقات", "سجل الإصدارات Version History", "منطقة الحالة", "التراجع عن الإرسال"], ans: 1 },
+        { q: "الدائرة في الزاوية السفلى من الواجهة التي تمثل البوابة المركزية للبحث الفوري:", opts: ["الرف Shelf", "مشغل التطبيقات Launcher", "المكبر", "وضع التركيز"], ans: 1 },
+        { q: "شريط أسفل الشاشة يضم التطبيقات المثبتة والأكثر استخداماً للوصول السريع لها يُطلق عليه:", opts: ["منطقة الحالة", "الرف Shelf", "الشرائح الذكية", "ميزة القراءة بالصوت"], ans: 1 },
+        { q: "لضبط إعدادات الجهاز السريعة مثل شبكة الـ Wi-Fi، والبطارية، واللغات، يتوجه المستخدم إلى:", opts: ["منطقة الحالة Status Area", "سجل الإصدارات", "إعادة التشغيل الصلبة", "مشغل التطبيقات"], ans: 0 },
+        { q: "الأداة التربوية لإدارة الانتباه الصفي بكتم الإشعارات وتحديد وقت للعمل المركز لتقليل التشتت:", opts: ["وضع التباين العالي", "وضع التركيز Focus Mode", "الشرائح الذكية", "مشغل التطبيقات"], ans: 1 },
+        { q: "أداة وصول تسمح للجهاز بقراءة محتوى محدد بصوت مسموع لدعم مهارات القراءة:", opts: ["المكبر", "ميزة القراءة بالصوت Select-to-Speak", "وضع التباين العالي", "سجل الإصدارات"], ans: 1 },
+        { q: "الخاصية البصرية التي تغير ألوان الشاشة وتدرجاتها لتسهيل الرؤية وراحة العين:", opts: ["الرف", "وضع التباين العالي High Contrast", "الشرائح الذكية", "وضع التركيز"], ans: 1 },
+        { q: "أداة تتيح تكبير عناصر محددة أو كامل الشاشة لدعم الرؤية الواضحة للتفاصيل الدقيقة:", opts: ["المكبر Magnifier", "مشغل التطبيقات", "التراجع عن الإرسال", "ميزة القراءة بالصوت"], ans: 0 },
+        { q: "عناصر تفاعلية تظهر عند استخدام الرمز (@) لربط الأشخاص والملفات والمواعيد داخل المستند:", opts: ["منطقة الحالة", "الرف", "الشرائح الذكية Smart Chips", "Google Meet"], ans: 2 },
+        { q: "الإجراء الذي يُعد الخط الدفاعي الأول عند تجمد الجهاز (Refresh + Power) لإعادة التنشيط:", opts: ["سجل الإصدارات", "إعادة التشغيل الصلبة", "وضع التركيز", "التراجع عن الإرسال"], ans: 1 },
+        { q: "ميزة في Gmail تمنح فرصة زمنية لسحب الرسالة بعد إرسالها لتصحيح أي خطأ:", opts: ["الشرائح الذكية", "التراجع عن الإرسال Undo Send", "مشغل التطبيقات", "Google Meet"], ans: 1 },
 
-                <!-- Opposites (2 Marks) -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4 bg-gray-50 p-2 rounded">Part 2: Opposites</h3>
-                    <div class="question">
-                        <p class="font-medium mb-3">4. Choose the opposite: "I can't receive or ________ a message."</p>
-                        <div class="flex space-x-6">
-                            <label><input type="radio" name="q4" value="send"> send</label>
-                            <label><input type="radio" name="q4" value="keep"> keep</label>
-                        </div>
-                    </div>
-                    <div class="question">
-                        <p class="font-medium mb-3">5. "Truth" is the opposite of ________.</p>
-                        <div class="flex space-x-6">
-                            <label><input type="radio" name="q5" value="secret"> secret</label>
-                            <label><input type="radio" name="q5" value="lie"> lie</label>
-                        </div>
-                    </div>
-                </div>
+        // --- Google Workspace أسئلة ---
+        { q: "الميزة التي تتيح للمعلمين في Google Classroom حفظ واستدعاء تعليقات مخصصة لتوفير الوقت:", opts: ["التعليقات الصفية", "التعليقات الخاصة", "بنك التعليقات Comment Bank", "الإشارات Mentions"], ans: 2 },
+        { q: "أي من تطبيقات Google Workspace يُستخدم لإنشاء مواقع ويب تفاعلية دون لغات برمجة؟", opts: ["Google Sites", "Google Blogger", "Google Spaces", "Google Slides"], ans: 0 },
+        { q: "عند مشاركة ملف عبر Google Drive، ما هو الإذن الذي يمنع التعديل المباشر ويسمح بتقديم اقتراحات؟", opts: ["عارض Viewer", "محرر Editor", "معلق Commenter", "مالك Owner"], ans: 2 },
+        { q: "أداة مدمجة في نظام Chrome OS تقرأ النصوص المحددة بصوت عالٍ:", opts: ["Chrome Read aloud", "Google TalkBack", "الاستماع إلى النص المحدد Select-to-Speak", "Screen Cast"], ans: 2 },
+        { q: "في نماذج جوجل، أي نوع من الأسئلة يسمح بتحديد أكثر من إجابة واحدة صحيحة؟", opts: ["خيارات من متعدد", "مربعات اختیار Checkboxes", "القائمة المنسدلة", "شبكة متعددة الاختيارات"], ans: 1 },
+        { q: "كيف يمكن للمعلم تنظيم الواجبات داخل علامة التبويب 'الواجب الدراسي' لتبسيط التصفح؟", opts: ["عن طريق إنشاء مواضيع Topics", "عن طريق تغيير مظهر الصف", "عن طريق أرشفة الصف", "عن طريق فرز الطلاب أبجدياً"], ans: 0 },
+        { q: "المساحة السحابية التي تضمن بقاء ملكية الملفات للمؤسسة حتى لو غادر المعلم:", opts: ["ملفاتي My Drive", "مساحات التخزين المشتركة Shared Drives", "تمت مشاركتها معي", "الأرشيف الرقمي"], ans: 1 },
+        { q: "في Google Slides، الميزة التي تسمح للجمهور بطرح أسئلة تفاعلية والتصويت عليها مباشرة أثناء العرض:", opts: ["أداة الجمهور Google Q&A", "الملاحظات المدمجة", "Smart Canvas", "Google Forms Integration"], ans: 0 },
+        { q: "أي من الرموز التالية يُستخدم لتفعيل ميزة 'الشرائح الذكية' لإدراج ملفات أو أشخاص؟", opts: ["رمز الهاشتاج (#)", "رمز الأت (@)", "رمز النجمة (*)", "رمز النسبة المئوية (%)"], ans: 1 },
+        { q: "الهدف الأساسي من تكامل تطبيق Google Meet داخل بيئة صفوف Google Classroom:", opts: ["عقد الحصص الافتراضية واللقاءات المرئية المباشرة مع طلاب الصف", "تصحيح الاختبارات تلقائياً", "حساب نسب الغياب", "تخزين الملفات الكبيرة"], ans: 0 }
+    ];
 
-                <!-- Reading Timeline (5 Marks) -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4 bg-gray-50 p-2 rounded">Part 3: Sheku's Timeline</h3>
-                    <div class="space-y-6">
-                        <div class="question">
-                            <p class="font-medium mb-2">6. In 1999, Sheku Kanneh-Mason was ________.</p>
-                            <select name="q6" class="w-full p-2 border rounded">
-                                <option value="">Select...</option>
-                                <option value="born">born</option>
-                                <option value="winning">winning</option>
-                            </select>
-                        </div>
-                        <div class="question">
-                            <p class="font-medium mb-2">7. He started playing the cello when he was ________.</p>
-                            <select name="q7" class="w-full p-2 border rounded">
-                                <option value="">Select age...</option>
-                                <option value="5">five</option>
-                                <option value="6">six</option>
-                                <option value="9">nine</option>
-                            </select>
-                        </div>
-                        <div class="question">
-                            <p class="font-medium mb-2">8. He won the UK young musician competition in ________.</p>
-                            <input type="number" name="q8" class="w-full p-2 border rounded" placeholder="Enter year...">
-                        </div>
-                        <div class="question">
-                            <p class="font-medium mb-2">9. In 2017, he played at the ________ and television awards.</p>
-                            <input type="text" name="q9" class="w-full p-2 border rounded" placeholder="Write one word...">
-                        </div>
-                        <div class="question">
-                            <p class="font-medium mb-2">10. Millions watched him play in London in May ________.</p>
-                            <input type="number" name="q10" class="w-full p-2 border rounded" placeholder="Enter year...">
-                        </div>
-                    </div>
-                </div>
+    const wrapper = document.getElementById('questions-wrapper');
+    
+    // إنشاء أقسام وهمية لترتيب الأسئلة للمستخدم
+    const sectionNames = [
+        { index: 0, title: "المجموعة الأولى والثانية (المفاهيم العامة)" },
+        { index: 19, title: "الملف الأول (مكرر ومفصل)" },
+        { index: 34, title: "الجزء الثاني" },
+        { index: 49, title: "الجزء الثالث" },
+        { index: 60, title: "أسئلة Google Workspace الشاملة" }
+    ];
 
-                <button type="button" onclick="submitToWhatsApp()" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold text-xl hover:bg-green-600 transition shadow-lg">Submit Results</button>
-            </form>
-        </div>
+    let currentSection = 0;
 
-        <!-- Finish Screen -->
-        <div id="finish-screen" class="hidden text-center py-10">
-            <div class="text-6xl mb-4">✅</div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">Quiz Finished!</h2>
-            <p id="score-display" class="text-3xl text-blue-600 font-bold mb-4"></p>
-            <p class="text-gray-500">Your results have been generated. Thank you!</p>
-        </div>
-    </div>
+    quizData.forEach((q, index) => {
+        // إضافة عنوان القسم
+        if (sectionNames[currentSection] && index === sectionNames[currentSection].index) {
+            const sectionTitle = document.createElement('div');
+            sectionTitle.className = 'section-title';
+            sectionTitle.innerHTML = `<h3>${sectionNames[currentSection].title}</h3>`;
+            wrapper.appendChild(sectionTitle);
+            currentSection++;
+        }
 
-    <script>
-        const STORAGE_KEY = 'unit7_quiz_final_lock';
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question-container';
+        
+        let optionsHTML = '';
+        q.opts.forEach((opt, optIndex) => {
+            optionsHTML += `
+                <li>
+                    <label class="option-label">
+                        <input type="radio" name="q${index}" value="${optIndex}">
+                        ${opt}
+                    </label>
+                </li>
+            `;
+        });
 
-        function initQuiz() {
-            const name = document.getElementById('student-name').value;
-            const phone = document.getElementById('teacher-phone').value;
+        questionDiv.innerHTML = `
+            <div class="question-text">${index + 1}. ${q.q}</div>
+            <ul class="options">
+                ${optionsHTML}
+            </ul>
+            <div class="feedback" id="feedback-${index}"></div>
+        `;
+        wrapper.appendChild(questionDiv);
+    });
+
+    function submitQuiz() {
+        let score = 0;
+        let answered = 0;
+
+        quizData.forEach((q, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
             
-            if (!name.trim() || !phone.trim()) {
-                alert("Please enter your name and teacher's phone number!");
+            if (!selected) {
+                feedbackDiv.style.display = 'block';
+                feedbackDiv.className = 'feedback wrong';
+                feedbackDiv.innerHTML = 'الرجاء اختيار إجابة.';
                 return;
             }
 
-            if (localStorage.getItem(STORAGE_KEY)) {
-                alert("You have already submitted this quiz.");
-                showFinish();
-                return;
+            answered++;
+            const selectedValue = parseInt(selected.value);
+            feedbackDiv.style.display = 'block';
+
+            if (selectedValue === q.ans) {
+                score++;
+                feedbackDiv.className = 'feedback correct';
+                feedbackDiv.innerHTML = `إجابة صحيحة!`;
+            } else {
+                feedbackDiv.className = 'feedback wrong';
+                feedbackDiv.innerHTML = `إجابة خاطئة. الإجابة الصحيحة هي: ${q.opts[q.ans]}`;
             }
+        });
 
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            document.getElementById('display-name').innerText = "Student: " + name;
-            window.scrollTo(0,0);
+        if (answered === quizData.length) {
+            const resultDiv = document.getElementById('result-container');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `تم الانتهاء! لقد حصلت على ${score} من أصل ${quizData.length}`;
+            window.scrollTo(0, document.body.scrollHeight);
+        } else {
+            alert(`لقد أجبت على ${answered} سؤال من أصل ${quizData.length}. يرجى إكمال الباقي لرؤية النتيجة النهائية.`);
         }
+    }
+</script>
 
-        function calculateScore() {
-            const form = document.getElementById('quiz-form');
-            const data = new FormData(form);
-            let score = 0;
-
-            if (data.get('q1') === 'listen') score++;
-            if (data.get('q2') === 'keep') score++;
-            if (data.get('q3') === 'have') score++;
-            if (data.get('q4') === 'send') score++;
-            if (data.get('q5') === 'lie') score++;
-            if (data.get('q6') === 'born') score++;
-            if (data.get('q7') === '6') score++;
-            if (data.get('q8') === '2016') score++;
-            if (data.get('q9')?.toLowerCase().includes('film')) score++;
-            if (data.get('q10') === '2018') score++;
-
-            return score;
-        }
-
-        function submitToWhatsApp() {
-            const score = calculateScore();
-            const name = document.getElementById('student-name').value;
-            const phone = document.getElementById('teacher-phone').value;
-
-            // Create Message
-            const message = `*English Quiz Result (Unit 7)*%0A` +
-                            `--------------------------%0A` +
-                            `*Student Name:* ${name}%0A` +
-                            `*Final Score:* ${score} / 10%0A` +
-                            `--------------------------%0A` +
-                            `Status: Submitted Successfully ✅`;
-
-            // Open WhatsApp
-            const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
-            window.open(whatsappUrl, '_blank');
-
-            // Lock the quiz
-            localStorage.setItem(STORAGE_KEY, score);
-            showFinish(score);
-        }
-
-        function showFinish(score) {
-            const savedScore = localStorage.getItem(STORAGE_KEY);
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('finish-screen').classList.remove('hidden');
-            document.getElementById('score-display').innerText = `Score: ${savedScore} / 10`;
-        }
-
-        window.onload = () => {
-            if (localStorage.getItem(STORAGE_KEY)) {
-                showFinish();
-            }
-        };
-    </script>
 </body>
 </html>
